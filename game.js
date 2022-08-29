@@ -12,11 +12,14 @@ var started = false; //Setting this to keep track of the game. To check whether 
 var level = 0; // To set the level of the game as it proceeds.
 
 //To detect the first key press in keyboard
-$(document).click(function () {
-  if (!started) {
-    $("#info-title").text("Level " + level); //To update the h2 to value of Level
-    nextSequence();
-    started = true; //Set the started to true once the keyboard key has been pressed for the first time.
+$(document).click(function (event) {
+  console.log(event.target);
+  if(!buttonColours.includes(event.target.id)){// 🚩The game won't start if you click on the button.... but will start if you click any where else
+    if (!started) {
+      $("#info-title").text("Level " + level); //To update the h2 to value of Level
+      nextSequence();
+      started = true; //Set the started to true once the keyboard key has been pressed for the first time.
+    }
   }
 });
 
@@ -36,8 +39,10 @@ $(".btn").click(function () {
   userClickedPattern.push(userChoosenColour); //To put the user choosen colours in an array.
   playSound(userChoosenColour);
   animatePress(userChoosenColour);
-
-  checkAnswer(userClickedPattern.length - 1); //Call the function by passing the index of the last choosen answer by user.
+  if(level!==0){ //🚩 If you want to just hear the button sounds before starting the game🙃
+    checkAnswer(userClickedPattern.length - 1);
+  }
+   //Call the function by passing the index of the last choosen answer by user.
 });
 
 function checkAnswer(currentLevel) {
